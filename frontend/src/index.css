@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+ * HAVEN DESIGN SYSTEM
+ * Binance-inspired theme for "Built to Survive Markets"
+ * ============================================================ */
+
+@layer base {
+    :root {
+        /* HAVEN Backgrounds */
+        --haven-bg-app: #0B0E11;
+        --haven-bg-sidebar: #161A1E;
+        --haven-bg-card: #1E2329;
+        --haven-bg-hover: #2B3139;
+        --haven-bg-elevated: #252A31;
+        
+        /* HAVEN Text */
+        --haven-text-primary: #EAECEF;
+        --haven-text-secondary: #B7BDC6;
+        --haven-text-muted: #848E9C;
+        --haven-text-inverse: #0B0E11;
+        
+        /* HAVEN States */
+        --haven-ok: #0ECB81;
+        --haven-warning: #F0B90B;
+        --haven-block: #F6465D;
+        --haven-info: #1E90FF;
+        
+        /* HAVEN Brand */
+        --haven-brand: #F0B90B;
+        
+        /* HAVEN Borders */
+        --haven-border: rgba(255, 255, 255, 0.08);
+        --haven-border-light: rgba(255, 255, 255, 0.12);
+        
+        /* Legacy CSS Variables (mapped to HAVEN) */
+        --background: 220 15% 5%;
+        --foreground: 220 10% 93%;
+        --card: 220 13% 12%;
+        --card-foreground: 220 10% 93%;
+        --popover: 220 13% 12%;
+        --popover-foreground: 220 10% 93%;
+        --primary: 48 96% 50%;
+        --primary-foreground: 220 15% 5%;
+        --secondary: 220 13% 18%;
+        --secondary-foreground: 220 10% 93%;
+        --muted: 220 13% 18%;
+        --muted-foreground: 220 10% 55%;
+        --accent: 220 13% 18%;
+        --accent-foreground: 220 10% 93%;
+        --destructive: 354 70% 54%;
+        --destructive-foreground: 220 10% 93%;
+        --border: 220 13% 18%;
+        --input: 220 13% 18%;
+        --ring: 48 96% 50%;
+        --chart-1: 153 69% 43%;
+        --chart-2: 354 70% 54%;
+        --chart-3: 48 96% 50%;
+        --chart-4: 217 91% 60%;
+        --chart-5: 262 83% 58%;
+        --radius: 6px;
+        
+        /* Semantic colors */
+        --profit: 153 69% 43%;
+        --loss: 354 70% 54%;
+        --warning: 48 96% 50%;
+        --info: 217 91% 60%;
+        --agent-active: 262 83% 58%;
+    }
+
+    * {
+        border-color: var(--haven-border);
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--haven-bg-app);
+        color: var(--haven-text-primary);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Rajdhani', 'Inter', sans-serif;
+        font-weight: 600;
+    }
+}
+
+@layer components {
+    /* Terminal/Mono text for numbers */
+    .font-mono {
+        font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* HAVEN State Colors */
+    .text-haven-ok {
+        color: var(--haven-ok);
+    }
+    
+    .text-haven-warning {
+        color: var(--haven-warning);
+    }
+    
+    .text-haven-block {
+        color: var(--haven-block);
+    }
+    
+    .text-haven-info {
+        color: var(--haven-info);
+    }
+    
+    .bg-haven-ok {
+        background-color: rgba(14, 203, 129, 0.1);
+    }
+    
+    .bg-haven-warning {
+        background-color: rgba(240, 185, 11, 0.1);
+    }
+    
+    .bg-haven-block {
+        background-color: rgba(246, 70, 93, 0.1);
+    }
+
+    /* Legacy Profit/Loss colors (mapped to HAVEN) */
+    .text-profit {
+        color: var(--haven-ok);
+    }
+
+    .text-loss {
+        color: var(--haven-block);
+    }
+
+    .bg-profit {
+        background-color: rgba(14, 203, 129, 0.1);
+    }
+
+    .bg-loss {
+        background-color: rgba(246, 70, 93, 0.1);
+    }
+
+    /* Grid borders for control room aesthetic */
+    .grid-border {
+        border-right: 1px solid var(--haven-border);
+        border-bottom: 1px solid var(--haven-border);
+    }
+
+    /* HAVEN Card Style */
+    .haven-card {
+        background-color: var(--haven-bg-card);
+        border-radius: 6px;
+        padding: 20px;
+    }
+
+    /* HAVEN Button Styles */
+    .haven-btn-primary {
+        background-color: var(--haven-brand);
+        color: var(--haven-text-inverse);
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+    
+    .haven-btn-primary:hover {
+        background-color: #D4A30A;
+    }
+    
+    .haven-btn-secondary {
+        background-color: var(--haven-bg-hover);
+        color: var(--haven-text-primary);
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+    
+    .haven-btn-secondary:hover {
+        background-color: #353C47;
+    }
+    
+    .haven-btn-danger {
+        background-color: var(--haven-block);
+        color: var(--haven-text-primary);
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+    
+    .haven-btn-danger:hover {
+        background-color: #D93A4D;
+    }
+
+    /* HAVEN Status Pills */
+    .haven-pill-safe {
+        background-color: rgba(14, 203, 129, 0.15);
+        border: 1px solid rgba(14, 203, 129, 0.4);
+        color: var(--haven-ok);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+    .haven-pill-caution {
+        background-color: rgba(240, 185, 11, 0.15);
+        border: 1px solid rgba(240, 185, 11, 0.4);
+        color: var(--haven-warning);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+    .haven-pill-blocked {
+        background-color: rgba(246, 70, 93, 0.15);
+        border: 1px solid rgba(246, 70, 93, 0.4);
+        color: var(--haven-block);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+    .haven-pill-info {
+        background-color: rgba(30, 144, 255, 0.15);
+        border: 1px solid rgba(30, 144, 255, 0.4);
+        color: var(--haven-info);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    /* Sharp button style */
+    .btn-sharp {
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 600;
+    }
+
+    /* Card hover effect */
+    .card-hover {
+        transition: border-color 0.3s ease;
+    }
+
+    .card-hover:hover {
+        border-color: var(--haven-border-light);
+    }
+
+    /* Status indicators */
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .status-active {
+        background-color: var(--haven-ok);
+        box-shadow: 0 0 8px var(--haven-ok);
+    }
+
+    .status-inactive {
+        background-color: var(--haven-text-muted);
+    }
+
+    .status-warning {
+        background-color: var(--haven-warning);
+        box-shadow: 0 0 8px var(--haven-warning);
+    }
+
+    .status-error {
+        background-color: var(--haven-block);
+        box-shadow: 0 0 8px var(--haven-block);
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--haven-bg-app);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--haven-bg-hover);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--haven-text-muted);
+    }
+
+    /* Table styles */
+    .table-terminal {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.875rem;
+    }
+
+    .table-terminal th {
+        font-family: 'Rajdhani', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        color: var(--haven-text-muted);
+    }
+
+    /* Animation for live data */
+    @keyframes pulse-green {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    .animate-pulse-green {
+        animation: pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Kill switch button */
+    .kill-switch {
+        background: linear-gradient(180deg, #F6465D 0%, #C7384C 100%);
+        border: 2px solid var(--haven-block);
+        box-shadow: 0 0 20px rgba(246, 70, 93, 0.3);
+    }
+
+    .kill-switch:hover {
+        box-shadow: 0 0 30px rgba(246, 70, 93, 0.5);
+    }
+}
+
+/* Hide debug wrapper */
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+}
+
+/* Recharts customization */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    stroke: rgba(255, 255, 255, 0.05);
+}
+
+.recharts-text {
+    fill: hsl(var(--muted-foreground));
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+}
+
+.recharts-tooltip-wrapper {
+    outline: none;
+}

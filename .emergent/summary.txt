@@ -1,0 +1,173 @@
+<analysis>**original_problem_statement:**
+The user initiated a series of feature requests to evolve the HAVEN trading application:
+
+1.  **Agent Integration with Paper Trading**: Integrate the existing trading agents (MM, MOM, Sniper) with the paper trading system. This required a unified  with critical safety guardrails (rate limits, duplicate prevention, kill switch) and UI updates on the  page to display agent-specific data (, ) and allow manual trade closing.
+2.  **Trades Report Feature**: Introduce a new Report tab on the  page to provide analytics on trading performance. This involved creating a new backend endpoint () to analyze trades and a new  MongoDB collection to capture data on blocked or failed execution attempts, providing insights into *why* trades didn't happen.
+3.  **Binance Spot Integration (Live Trading)**: Migrate the application's market data and trade execution to Binance Spot. The core tasks were to implement a multi-mode  (supporting , , ), use  orders only, and enforce a strict set of non-negotiable safety guardrails (symbol whitelists, order size caps, rate limits, daily loss limits) before live trading could be enabled. This also included creating a  checklist endpoint to programmatically verify system safety.
+
+**User's preferred language**: Portuguese
+
+**what currently exists?**
+The HAVEN application is a full-stack platform with a robust paper trading system. It has recently been enhanced with the foundational components for live trading on Binance, though this functionality is currently disabled and untested due to environmental constraints.
+
+-   **Agent Trading**: Agents (MM, MOM) are integrated into a central , which enforces guardrails like rate limiting and prevents duplicate positions before routing trades to the .
+-   **Trades UI**: The  page is a comprehensive dashboard. It displays a real-time table of trades with columns for , , , and . It features a Close button for manual trade intervention.
+-   **Trades Report**: A Report tab on the  page provides detailed analytics, including PnL summaries, win/loss rates, and a breakdown of what worked and what failed. The failed section is powered by an  collection and shows collapsable examples of blocked trade attempts.
+-   **Binance Integration (Backend Foundation)**:
+    -   A  handles communication with the Binance API for market data.
+    -   The  is the system's core, capable of switching between , , and  execution modes.
+    -   A  contains the logic for placing signed  orders.
+    -   **Critical safety guardrails** are implemented and tested within the , including an over-arching kill switch, symbol whitelisting, order notional limits, rate limits, and a daily loss limit that triggers the kill switch.
+    -   An API endpoint, , exists to provide a checklist for determining if the system is safe to go live.
+
+**Last working item**:
+-   Last item agent was working: The agent finished implementing and testing the critical safety guardrails for the Binance integration. The final step was hardening the daily loss limit logic within the  and ensuring all related backend tests in  passed.
+-   Status: IN PROGRESS
+-   Agent Testing Done: Y
+-   Which testing method agent to use? manual testing by curl. The next steps involve verifying the new endpoints (, ) and attempting a Testnet trade to confirm it's routed and logged correctly, even though it's expected to fail due to geo-restrictions.
+-   User Testing Done: N
+
+**All Pending/In progress Issue list**:
+-   **Issue 1: Validate Binance Integration and Readiness Checks (P0)**
+    -   **Description**: The backend implementation for Binance integration is complete, but it is currently **blocked** from full end-to-end testing by a geo-restriction on the Binance API in the current environment. The user has instructed to proceed with the code implementation and defer E2E testing. The immediate task is to verify all preparatory work that can be done within the current constraints.
+    -   **Attempted fixes**: The agent identified the geo-block using the troubleshooter and, per user instruction, configured the application to use the official Binance URLs while making the market-data URL configurable for local testing.
+    -   **Next debug checklist**:
+        1.  Use  to call the  endpoint and verify its output reflects the current (unsafe) state (e.g., , ).
+        2.  Use  to call  and  to confirm the  is being used and handles the API failure gracefully (returning ).
+        3.  Construct and execute a  command for  with the mode set to . This should fail due to the geo-block, but the test is to confirm that the  routes the request correctly and logs a  or  event in the  collection.
+    -   **Why fix this issue and what will be achieved with the fix?**: This validation will confirm that all components (router, executor, logger, readiness check) are correctly wired up before handing off for E2E testing in a different environment.
+    -   **Status**: BLOCKED
+    -   **Is recurring issue?** Y (The geo-restriction will persist in this environment).
+    -   **Should Test frontend/backend/both after fix?**: both
+    -   **Blocked on other issue**: Geo-location for full end-to-end testing.
+
+**In progress Task List**:
+-   None.
+
+**Upcoming and Future Tasks**
+
+-   **Upcoming Tasks:**
+    -   **(P1) UI for Live Readiness**: Create a UI view, possibly a new page or a section in an admin panel, to display the status from the  endpoint. Add a persistent banner to the UI that is visible whenever the  is not .
+    -   **(P1) Full Binance Testnet E2E Test**: Once the application is in a geo-unrestricted environment and the user has provided Testnet keys, execute a full end-to-end test: open a trade, verify it on the Binance Testnet website, see it appear in the  UI, and close it. On success, update the readiness check to mark  as .
+-   **Future Tasks:**
+    -   **(P2) Enable  Mode**: After successful Testnet validation and user approval, enable live mode by setting the appropriate environment variables (, ) and providing live keys.
+    -   **(P3) Integrate Sniper Agent**: Integrate the  agent with the .
+    -   **(P4) Real Email Integration**: Replace the demo-mode password reset with a production SMTP service.
+
+**Completed work in this session**
+-   **Feature: Agent Integration with Paper Trading**: Implemented the  with guardrails (rate limit, duplicate prevention) and integrated the MM/MOM agents. Updated the UI with / columns and a manual Close button.
+-   **Feature: Trades Report**: Built the  endpoint, the  collection, and the corresponding Report tab in the UI, which includes analytics and a collapsable Failures preview.
+-   **Feature: Binance Spot Integration (Foundation)**:
+    -   Created  for market data and  for trading.
+    -   Heavily modified  to handle , , and  modes.
+    -   Implemented and tested a suite of critical safety guardrails (kill switch, symbol whitelist, notional caps, loss limits) in the router.
+    -   Created the  endpoint.
+    -   Updated the data model and UI to include  and .
+    -   Diagnosed and created a workaround strategy for the Binance API geo-restriction.
+
+**Earlier issues found/mentioned but not fixed**
+-   None.
+
+**Known issue recurrence from previous fork**
+-   None.
+
+**Code Architecture**
+venueorderId
+
+**Key Technical Concepts**
+-   **Multi-Mode Execution Router**: An architectural pattern using a central  to direct trade flow to different executors (, ) based on the  configuration. This provides a clean separation between simulated and live environments.
+-   **Mandatory Safety Guardrails**: A non-negotiable validation layer within the  that checks every trade request against a set of safety rules (kill switch, symbol whitelist, rate limits, daily loss limits) before execution.
+-   **Execution Logging for Visibility**: A new  collection that records the outcome of *every* trade attempt (success, blocked, error), providing critical debugging data and powering the What failed section of the Trades Report.
+-   **Programmatic Live Readiness Checklist**: An API endpoint () that allows the system to self-report on its configuration and state, ensuring a data-driven approach to enabling live trading safely.
+
+**key DB schema**
+-   ****: Modified to include  (e.g., PAPER, BINANCE_TESTNET) and .
+-   ****: **New collection**. Fields include , , , ,  (open/close),  (success/blocked/error), , , .
+-   ****: Modified to track .
+
+**changes in tech stack**
+-   : Installed for interacting with cryptocurrency exchanges.
+-   : Installed for caching API responses to avoid rate limiting.
+
+**All files of reference**
+-   : Contains the core execution logic and safety guardrails.
+-   : Defines the configuration for trading modes and safety limits.
+-   : The client for all Binance API communication.
+-   : The service that places orders on Binance.
+-   : The service behind the safety readiness checklist.
+-   : The logic for generating the trade analysis report.
+-   : The heavily modified frontend page containing the trades table and new report tab.
+-   : The test suite for the new safety features.
+-   : The environment file where new keys and configs are defined.
+
+**Areas that need refactoring**:
+-   The legacy  and  MongoDB collections should be reviewed for deprecation and potential cleanup, as  is now the primary collection.
+
+**key api endpoints**
+-   : New endpoint to fetch the trade analysis report.
+-   : New endpoint that provides a checklist for live trading safety.
+-   : Updated to fetch data from the .
+-   : Updated to fetch data from the .
+
+**Critical Info for New Agent**
+-   **Responda em Português.**
+-   **Geo-Restriction Blocker**: The current environment is geo-restricted and cannot access . The user has instructed to build against the official Binance URLs and defer final E2E testnet validation. Do not attempt to change the execution URLs back to a  domain. The immediate priority is to verify the setup as much as possible within this limitation.
+-   **Safety First**: The architecture is built around non-negotiable safety guardrails. Live trading is disabled by default via multiple configuration flags. Do not attempt to bypass these checks.
+-   **Testnet First**: The primary goal is to achieve a fully working and validated  integration. Do not proceed with  functionality until Testnet is proven stable and the user gives explicit approval.
+
+**documents and test reports created in this job**
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+
+**Last 10 User Messages and any pending HUMAN messages**
+10. User confirms go-ahead for implementing failure previews in the report tab. (Status: **Completed**)
+9.  Agent presents the completed Trades Report feature and asks for feedback. (Status: **Completed**)
+8.  Agent provides a summary of the implemented Sniper agent integration with paper trading. (Status: **Completed**)
+7.  User provides requirements to add failure example previews to the report. (Status: **Completed**)
+6.  Agent confirms completion of the agent integration (MM/MOM) and UI updates. (Status: **Completed**)
+5.  User provides detailed PRD for the Trades Report feature. (Status: **Completed**)
+4.  Agent confirms completion of the agent execution bridge and E2E tests for paper trading. (Status: **Completed**)
+3.  User provides a detailed PRD for integrating real agents (MM/MOM/Sniper) with paper trading. (Status: **Completed**)
+2.  User provides final, detailed requirements for the **Binance Spot Integration**, including a Testnet-first approach, specific guardrail values (order caps, rate limits), and the initial symbol whitelist. (Status: **In Progress**)
+1.  User confirms they have Testnet keys and clarifies the strategy for handling the geo-restriction: implement for official Binance URLs and test E2E in a different deployment. (Status: **In Progress**)
+
+**Project Health Check:**
+-   **Broken**:
+    -   Binance Testnet/Live trade execution is non-functional in the current environment due to API geo-restrictions. The code is in place but cannot be tested end-to-end.
+-   **Mocked**:
+    -   All CEX (Centralized Exchange) trading currently operates in  mode.
+    -   The email service for password recovery is in .
+
+**3rd Party Integrations**
+-   **Binance**: For Spot market data and trade execution. Requires  and .
+-   **DEX/Web3**: Ethers.js, Web3.py, Solana-py (for quoting on Testnet, no execution).
+-   **Data Feeds**: CoinGecko.
+-   **Email**: SendGrid (mocked).
+
+**Testing status**
+-   Testing agent used after significant changes: YES
+-   Troubleshoot agent used after agent stuck in loop: YES
+-   Test files created:
+    -   
+    -   
+    -   
+    -   
+-   Known regressions: None
+
+**Credentials to test flow:**
+-   **Owner Account**:
+    -   Username: 
+    -   Password: 
+-   **Binance Keys**: The user must provide these as environment variables (, ). They are not currently set.
+
+**What agent forgot to execute**
+-   The agent has correctly followed user instructions, including the deliberate deferral of E2E testing due to environmental blockers. No tasks appear to have been forgotten.</analysis>

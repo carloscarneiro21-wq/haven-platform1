@@ -1,0 +1,170 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "E1_Crypto_Terminal",
+      "archetype": "Cyber-Swiss",
+      "core_values": [
+        "Precision",
+        "Speed",
+        "Transparency",
+        "Control"
+      ],
+      "emotional_tone": "Professional, High-Tech, Serious, Trustworthy"
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Rajdhani, sans-serif",
+        "body": "Manrope, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "usage_rules": {
+        "headings": "Uppercase, tracking-wide, font-semibold (600). Use for widget titles and section headers.",
+        "body": "Clean, legible. Use for descriptions and logs.",
+        "mono": "MANDATORY for all financial data, prices, PnL, and timestamps. Tabular nums.",
+        "sizes": {
+          "h1": "text-4xl md:text-5xl font-bold tracking-tight",
+          "h2": "text-3xl font-semibold tracking-tight",
+          "h3": "text-xl font-medium uppercase tracking-wider text-muted-foreground",
+          "body": "text-sm leading-relaxed",
+          "mono_lg": "text-2xl font-mono tracking-tight",
+          "mono_sm": "text-xs font-mono text-muted-foreground"
+        }
+      }
+    },
+    "colors": {
+      "palette": {
+        "background": "#09090B",
+        "surface": "#18181B",
+        "surface_highlight": "#27272A",
+        "border": "rgba(255, 255, 255, 0.08)",
+        "primary": "#10B981",
+        "primary_glow": "rgba(16, 185, 129, 0.2)",
+        "destructive": "#EF4444",
+        "destructive_glow": "rgba(239, 68, 68, 0.2)",
+        "accent": "#8B5CF6",
+        "text_primary": "#FAFAFA",
+        "text_secondary": "#A1A1AA",
+        "text_muted": "#52525B"
+      },
+      "semantic_usage": {
+        "profit": "text-[#10B981]",
+        "loss": "text-[#EF4444]",
+        "warning": "text-[#F59E0B]",
+        "info": "text-[#3B82F6]",
+        "agent_active": "text-[#8B5CF6] animate-pulse"
+      },
+      "gradients": {
+        "surface_gradient": "linear-gradient(180deg, rgba(24, 24, 27, 0.8) 0%, rgba(9, 9, 11, 1) 100%)",
+        "active_border": "linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), transparent)"
+      }
+    },
+    "layout": {
+      "grid_system": "Control Room Grid (Mode B)",
+      "spacing": {
+        "container_padding": "p-6 md:p-8",
+        "widget_gap": "gap-4",
+        "internal_padding": "p-4"
+      },
+      "containers": {
+        "widget": "bg-card border border-border rounded-sm overflow-hidden relative",
+        "dashboard": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]"
+      }
+    },
+    "components": {
+      "buttons": {
+        "primary": "bg-primary text-primary-foreground hover:bg-primary/90 rounded-none uppercase tracking-wider font-rajdhani font-semibold h-10 px-6",
+        "destructive": "bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-none uppercase tracking-wider font-rajdhani font-semibold h-10 px-6",
+        "outline": "border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-none uppercase tracking-wider font-rajdhani h-10 px-6",
+        "ghost": "hover:bg-accent hover:text-accent-foreground rounded-none font-rajdhani h-10 px-4"
+      },
+      "cards": {
+        "style": "bg-card text-card-foreground border-border rounded-sm shadow-none",
+        "header": "border-b border-border p-4 bg-muted/10",
+        "content": "p-4"
+      },
+      "inputs": {
+        "style": "bg-background border-input rounded-none focus:ring-1 focus:ring-primary font-mono text-sm h-10"
+      },
+      "badges": {
+        "style": "rounded-none px-2 py-0.5 text-xs font-mono uppercase tracking-wide border border-transparent"
+      }
+    },
+    "visual_enhancers": {
+      "borders": "1px solid rgba(255,255,255,0.08)",
+      "shadows": "none (flat design preferred for terminal look)",
+      "glassmorphism": "backdrop-blur-md bg-background/80 border border-white/10 (Use for overlays/modals only)",
+      "textures": "Subtle noise overlay on background (opacity 0.02)",
+      "animations": {
+        "hover": "transition-colors duration-200",
+        "pulse": "animate-pulse-green",
+        "enter": "animate-in fade-in zoom-in-95 duration-300"
+      }
+    },
+    "charts": {
+      "library": "Recharts",
+      "theme": {
+        "grid": "stroke-[#27272A] stroke-dasharray-3-3",
+        "tooltip": "bg-background border border-border rounded-none shadow-xl text-xs font-mono",
+        "colors": [
+          "#10B981",
+          "#EF4444",
+          "#8B5CF6",
+          "#F59E0B",
+          "#3B82F6"
+        ]
+      }
+    }
+  },
+  "assets": {
+    "images": {
+      "backgrounds": [
+        {
+          "url": "https://images.unsplash.com/photo-1764258560730-d167e5deda65?crop=entropy&cs=srgb&fm=jpg&q=85",
+          "description": "Abstract blue and white lines on black background - Use for Risk Manager background (low opacity)",
+          "category": "background"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1762279388956-1c098163a2a8?crop=entropy&cs=srgb&fm=jpg&q=85",
+          "description": "Abstract neon lines forming a digital landscape - Use for Agent Activity Feed background",
+          "category": "background"
+        }
+      ],
+      "crypto_assets": [
+        {
+          "url": "https://images.unsplash.com/photo-1639454276085-9f55d2db6570?crop=entropy&cs=srgb&fm=jpg&q=85",
+          "description": "Filecoin leaning on a stack of cryptocurrency coins - Use for Portfolio/Assets section",
+          "category": "asset"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1727170234683-a066fbf0710e?crop=entropy&cs=srgb&fm=jpg&q=85",
+          "description": "Close up of a gold coin - Use for 'Gold/Stablecoin' representation",
+          "category": "asset"
+        }
+      ]
+    },
+    "icons": {
+      "library": "lucide-react",
+      "style": "stroke-width-1.5 w-5 h-5"
+    }
+  },
+  "implementation_guide": {
+    "file_structure": {
+      "components": "/app/frontend/src/components",
+      "pages": "/app/frontend/src/pages",
+      "layouts": "/app/frontend/src/layouts",
+      "hooks": "/app/frontend/src/hooks"
+    },
+    "universal_rules": [
+      "Use 'Rajdhani' for all UI labels, headers, and buttons.",
+      "Use 'JetBrains Mono' for ALL numbers, prices, hashes, and timestamps.",
+      "Do not use rounded corners > 4px. Prefer 0px or 2px.",
+      "Always show a 'Status' indicator (green dot) for active agents.",
+      "PnL values must always be colored (Green for +, Red for -).",
+      "Use 'Skeleton' loaders for data fetching states.",
+      "Ensure all interactive elements have 'data-testid'.",
+      "Dark mode is the ONLY mode. Do not implement light mode toggle.",
+      "Use 'sonner' for notifications (Trade executed, Error, etc.)."
+    ],
+    "instructions_to_main_agent": "You are building a professional crypto trading terminal. The aesthetic is 'Cyber-Swiss' - precise, dark, and high-contrast. \n\n1. **Layout**: Use the 'Control Room' grid. The dashboard should feel like a cockpit. No wasted whitespace. \n2. **Data**: Real-time updates are key. Use the 'pulse-green' animation on price changes. \n3. **Risk**: The 'Kill Switch' must be prominent and dangerous-looking (Red gradient). \n4. **Agents**: Each agent (DCA, Grid, Trend) gets a card. Show their status (Running/Stopped) clearly. \n5. **Charts**: Use Recharts. Remove all grid lines except minimal horizontal guides. Custom tooltips are mandatory."
+  }
+}
