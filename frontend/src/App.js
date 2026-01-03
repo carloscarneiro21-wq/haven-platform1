@@ -1,11 +1,13 @@
-import { useState, useEffect, useCallback } from "react";
-import "@/App.css";
-import { BrowserRouter, Routes, Route, NavLink, useNavigate, Navigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import "./App.css";
+import { BrowserRouter, Routes, Route, NavLink, useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
-import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import { SidebarProvider, useSidebar } from "@/contexts/SidebarContext";
-import { SystemStatusProvider, useSystemStatus } from "@/contexts/SystemStatusContext";
+
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
+import { SystemStatusProvider, useSystemStatus } from "./contexts/SystemStatusContext";
+
 import Dashboard from "./pages/Dashboard";
 import Agents from "./pages/Agents";
 import Positions from "./pages/Positions";
@@ -22,19 +24,27 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import GrowthModule from "./components/GrowthModule";
 import ChangePassword from "./pages/ChangePassword";
 import Sandbox from "./pages/Sandbox";
 import Promotions from "./pages/Promotions";
 import Analytics from "./pages/Analytics";
 import DexTrading from "./pages/DexTrading";
 import Trades from "./pages/Trades";
-import { 
-  LayoutDashboard, 
-  Bot, 
-  TrendingUp, 
-  Shield, 
-  ScrollText, 
+
+import GrowthModule from "./components/GrowthModule";
+import AuthGuard from "./components/AuthGuard";
+import TradingModeBadge from "./components/TradingModeBadge";
+import LiveModeBanner from "./components/LiveModeBanner";
+import LiveReadinessModal from "./components/LiveReadinessModal";
+import TopSystemBar from "./components/console/TopSystemBar";
+import { Button } from "./components/ui/button";
+
+import {
+  LayoutDashboard,
+  Bot,
+  TrendingUp,
+  Shield,
+  ScrollText,
   Settings as SettingsIcon,
   Activity,
   Zap,
@@ -59,6 +69,7 @@ import {
   BarChart3,
   FileCheck
 } from "lucide-react";
+
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export const API = `${BACKEND_URL}/api`;
